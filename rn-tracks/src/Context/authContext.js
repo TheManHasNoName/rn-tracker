@@ -3,6 +3,8 @@ import trackerApi from '../api/tracker';
 
 const authReducer = (state, action) => {
     switch(action.type){
+        case 'errMessage':
+            return {...state, errMessage: action.payload}
         default:
             return state;
     }
@@ -15,6 +17,7 @@ const signup = (dispatch) => {
             console.log(response.data);
         } catch (e) {
             console.log(e.response.data);
+            dispatch({type: 'errMessage', payload: 'Invalid Data'})
         }
     }
 }
@@ -33,5 +36,5 @@ const signout = (dispatch) => {
 export const { Provider, Context } = createDataContext(
     authReducer,
     {signin, signout, signup},
-    { isSignedIn: false }
+    { isSignedIn: false, errMessage: '' }
 )
