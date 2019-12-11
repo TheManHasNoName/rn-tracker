@@ -16,7 +16,7 @@ const SignupScreen = ({navigation}) => {
       <View style={styles.container}>
           <AuthForm
             style={styles.authProp}
-            header={"Signup for Tracker"}
+            header={"Signup Tracker"}
             errorMessage={state.errMessage}
             submitButtonTitle={"Signup"}
             submit={signup}
