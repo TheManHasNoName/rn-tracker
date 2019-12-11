@@ -18,7 +18,7 @@ const AuthForm = ({header, errorMessage, submitButtonTitle, submit}) => {
             <Input label={"Password"} value={password} onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
             {errorMessage ? <Text  style={styles.errMessage}>{errorMessage}</Text> : null }
             <Spacer>
-                <Button title={"Signup"} onPress={() => submit({email, password})}/>
+                <Button title={submitButtonTitle} onPress={() => submit({email, password})}/>
             </Spacer>
         </>
     )
