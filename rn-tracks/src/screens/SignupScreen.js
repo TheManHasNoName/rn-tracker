@@ -3,33 +3,29 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import Spacer from '../Components/Spacer';
 import {Context as AuthContext} from '../Context/authContext';
+import AuthForm from '../Components/AuthForm';
+import NavLink from '../Components/NavLink';
 
 
 const SignupScreen = ({navigation}) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const {state, signup} = useContext(AuthContext);
 
     console.log(state);
 
   return (
       <View style={styles.container}>
-        <Spacer>
-            <Text h3>Sign up for a tracker</Text>
-        </Spacer>
+          <AuthForm
+            style={styles.authProp}
+            header={"Signup for Tracker"}
+            errorMessage={state.errMessage}
+            submitButtonTitle={"Signup"}
+            submit={signup}
+          />
 
-            <Input label={"Email"} value={email} onChangeText={setEmail} autoCapitalize='none' autoCorrect={false}/>
-            <Spacer />
-            <Input label={"Password"} value={password} onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
-            {state.errMessage ? <Text  style={styles.errMessage}>{state.errMessage}</Text> : null }
-            <Spacer>
-                <Button title={"Signup"} onPress={() => signup({ email, password })}/>
-            </Spacer>
-            <Spacer>
-                <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
-                    <Text style={styles.link}>Already have an account? Tap here to signin.</Text>
-                </TouchableOpacity>
-            </Spacer>
+        <NavLink
+            routeName={'Signin'}
+            text={'Already have an account? Tap here to Signin.'}
+        />
       </View>
   );
 };
@@ -52,8 +48,8 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: 16
     },
-    link: {
-        color: 'blue'
+    authProp: {
+        marginTop: 50
     }
 });
 
