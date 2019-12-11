@@ -7,8 +7,10 @@ const authReducer = (state, action) => {
     switch(action.type){
         case 'errMessage':
             return {...state, errMessage: action.payload};
-        case 'signup':
+        case 'signin':
             return { token: action.payload, errMessage: ''};
+        case 'clear_errorMessage':
+            return { ...state, errMessage: '' }
         default:
             return state;
     }
@@ -18,18 +20,25 @@ const signup = (dispatch) => async ({email, password}) => {
     try {
         const response = await trackerApi.post('/signup', {email, password} );
         await AsyncStorage.setItem('token', response.data.token);
-        dispatch({ type: 'signup', payload: response.data.token });
+        dispatch({ type: 'signin', payload: response.data.token });
         navigate('TrackList');
-        console.log(response.data);
+        console.log(response);
     } catch (e) {
         console.log(e.response.data);
         dispatch({type: 'errMessage', payload: 'Invalid Data'})
     }
 }
 
-const signin = (dispatch) => {
-    return ({email, password}) => {
-        
+const signin = (dispatch) => async({email, password}) => {
+    try {
+        const response = await trackerApi.post('signin', { email, password });
+        await AsyncStorage.setItem('token', response.data.token);
+        dispatch({ type: 'signin', payload: response.data.token });
+        navigate('TrackList');
+        console.log(response);
+    } catch (e) {
+        console.log(e.response.data);
+        dispatch({type: 'errMessage', payload: 'Incorrect Credentials'})
     }
 }
 
@@ -38,8 +47,14 @@ const signout = (dispatch) => {
     }
 }
 
+const clearError = (dispatch) => {
+    return () => {
+        dispatch({ type: 'clear_errorMessage' })
+    }
+}
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    {signin, signout, signup},
+    {signin, signout, signup, clearError},
     { token: null, errMessage: '' }
 )
