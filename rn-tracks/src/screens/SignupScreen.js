@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import Spacer from '../Components/Spacer';
@@ -10,7 +10,6 @@ import { NavigationEvents } from 'react-navigation';
 
 const SignupScreen = ({navigation}) => {
     const {state, signup, clearError} = useContext(AuthContext);
-
     console.log(state);
 
   return (
